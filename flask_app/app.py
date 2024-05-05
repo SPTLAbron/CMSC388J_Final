@@ -121,3 +121,6 @@ def cat_detail(cat_id):
 # # Not a view function, used for creating a string for the current time.
 def current_time() -> str:
     return datetime.now().strftime('%B %d, %Y at %H:%M:%S')
+
+if __name__ == "__main__":
+    app.run()
