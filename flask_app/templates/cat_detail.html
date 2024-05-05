@@ -1,0 +1,79 @@
+{% extends "header.html" %} {% block content %} {% if error_msg %}
+<b>{{ error_msg }}</b>
+{% endif %} {% if cat %} {# Display card for the movie details #}
+<div class="movie-container">
+  <ul class="movie-info">
+    <img class="movie-img" alt="alt text" src="{{ cat.url }}" />
+  </ul>
+  <div class="reviews">
+    <h1 class="reviews-title"> Reviews
+      <small class="reviews-count"> {{ reviews | length }} reviews </small>
+    </h1>
+    <ul class="review-container">
+      {% for review in reviews %}
+        <li class="review">
+          <span class="review-date">{{ review['date'] }}</span>
+          <div class="review-commenter">@{{ review['commenter'] }}</div>
+          <p class="review-content">{{ review['content'] }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+    {# Movie review submission form #}
+    <div class="container mx-auto">
+      <form method="POST" action="" class="review-form">
+        {{ form.csrf_token }}
+        <div class="form-group review-input">
+          {{ form.name.label }} {{ form.name(class="form-title") }}
+          {% if form.name.errors %}
+            <div class="error" role="alert">
+              {% for error in form.name.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="form-group review-input">
+          {{ form.text.label }} {{ form.text(class="form-content") }}
+          {% if form.text.errors %}
+            <div class="error" role="alert">
+              {% for error in form.text.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        {{ form.submit(class="review-button") }}
+      </form>
+    </div>
+
+    {% if 'username' in session %}
+    <h1 class="reviews-title"> Rating
+      <small class="reviews-count"> {{ ratings | length }} reviews </small>
+    </h1>
+    <ul class="review-container">
+      <p class="average-rating">
+        Average: {{avg}} stars
+      </p>
+    </ul>
+    <div class="container mx-auto">
+      <form method="POST" action="" class="review-form">
+        {{ rating_form.csrf_token }}
+        <div class="form-group review-input">
+          {{ rating_form.stars.label }} {{ rating_form.stars(class="form-title") }}
+          {% if rating_form.stars.errors %}
+            <div class="error" role="alert">
+              {% for error in rating_form.stars.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        {{ form.submit(class="review-button") }}
+      </form>
+    </div>
+    {% endif %}
+  </div>
+  <div class="w-0 lg:w-96"></div>
+</div>
+
+{% endif %} {% endblock %}

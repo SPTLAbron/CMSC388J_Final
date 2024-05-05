@@ -1,0 +1,42 @@
+{% extends "header.html" %}
+{% block content %}
+<style>
+  .cat-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .each-cat {
+    margin: 2rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  img {
+    max-width: 125px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+  }
+</style>
+
+<div class="main-container">
+  <h2 class="main-title">Here are the Cats</h2>
+  <div class="cat-container">
+    {% for cat in values %}
+    <a 
+    href="{{ url_for('cat_detail', cat_id=cat.id) }}"
+    class="group movie-card"
+  >
+    <div class="each-cat">
+      <img src="{{ cat.url }}" alt="Cat image with ID {{ cat.id }}"/>
+    </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
